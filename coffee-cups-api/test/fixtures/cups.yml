@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  coffee: one
+  brew: one
+  rating: one
+
+two:
+  user: two
+  coffee: two
+  brew: two
+  rating: two
