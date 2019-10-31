@@ -1,0 +1,30 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Muli', sans-serif;
+}
+
+h2, h4, p {
+    color: rgb(68, 55, 45);
+    font-family: 'Muli', sans-serif;
+ }
+
+ h3 {
+    color: rgb(98, 129, 133)
+ }
+
+header {
+     text-align: center;
+}
+
+h1 {
+    color: rgb(98, 129, 133);
+    font-family: 'Muli', sans-serif;
+    font-size: 40px;
+ }
+
+main {
+    padding-top: 10px;
+    padding-bottom: 10px
+}
+
