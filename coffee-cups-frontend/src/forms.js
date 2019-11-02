@@ -1,3 +1,5 @@
+let fieldset
+
 function generateNewCupForm() {
     let form = document.createElement('form')
     form.id = 'new-cup'
@@ -10,36 +12,61 @@ function generateNewCupForm() {
     fieldset.appendChild(legend)
 
     form.appendChild(fieldset).appendChild(generateObjsDropdown('brew'))
-    form.appendChild(fieldset).appendChild(generateObjsDropdown('roaster'))
+    fieldset.appendChild(generateObjsDropdown('roaster'))
 
     return form
 }
 
-function generateObjsDropdown(objType) {
-    let objDropdownLabel = document.createElement('label')
 
-    if (objType === 'brew') {
-        objDropdownLabel.innerHTML = 'Select a brew method.' + '<br>'
-    } else if (objType === 'roaster') {
-        objDropdownLabel.innerHTML = 'Select a roaster.' + '<br>'
-    }
 
-    let dropdown = document.createElement('select')
-    dropdown.name = objType
-    dropdown.id = `${objType}-dropdown`
-
-    function renderObjOptions(objs) {
-        objs.forEach((obj) => {
-            dropdown.appendChild(renderObjOption(obj))
-        })
-    }
-
-    fetch(`${BASE_URL}/${objType}s`)
+function generateObjsDropdown(objType, roasterId) {
+    function buildSelectElement(objType, roasterId) {
+        let url
+        
+        if (roasterId) url = `${BASE_URL}/roasters/${roasterId}/${objType}s`
+        else url = `${BASE_URL}/${objType}s`
+    
+        let dropdown = document.createElement('select')
+        dropdown.name = objType
+        dropdown.id = `${objType}-dropdown`
+    
+        function renderObjOptions(objs) {
+            objs.forEach((obj) => {
+                dropdown.appendChild(renderObjOption(obj))
+            })
+        }
+    
+        fetch(url)
         .then(resp => resp.json())
         .then(json => renderObjOptions(json))
+
+        return dropdown
+    }
+
+    function buildSelectLabel(objType) {
+        labeledDropdown = document.createElement('label')
     
-    objDropdownLabel.appendChild(dropdown)
-    return objDropdownLabel
+        if (objType === 'brew') {
+            labeledDropdown.innerHTML = 'Select a brew method.' + '<br>'
+        } else {
+            labeledDropdown.innerHTML = `Select a ${objType}.` + '<br>'
+        }
+
+        return labeledDropdown
+    }
+
+    let dropdown = buildSelectElement(objType, roasterId)
+    
+    if (objType === 'roaster') {
+        (function () { 
+            dropdown.addEventListener('change', (e) => { 
+                roasterId = e.target.value
+                e.target.parentNode.appendChild(buildSelectLabel('coffee')).appendChild(generateObjsDropdown('coffee', roasterId))
+            })}
+        )()
+    }
+    
+    return buildSelectLabel(objType).appendChild(dropdown)
 }
 
 function renderObjOption(obj) {
@@ -51,3 +78,4 @@ function renderObjOption(obj) {
 
     return option
 }
+
