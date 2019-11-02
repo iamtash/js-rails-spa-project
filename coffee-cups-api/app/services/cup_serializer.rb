@@ -5,10 +5,12 @@ class CupSerializer
 
     def to_serialized_json
         @cup.to_json(include: {
-            user: {only: [:name]},
-            coffee: {only: [:name]},
+            user: {only: [:id, :name]},
+            coffee: {include: {
+                roaster: {only: [:name]}
+            }, only: [:id, :name]},
             brew: {only: [:method]},
             rating: {only: [:rating]}
-        }, only: [:created_at])
+        }, only: [:id, :created_at])
     end
 end
