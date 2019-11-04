@@ -57,6 +57,7 @@ fieldset {
 select {
     display: table;
     margin: 1em;
+    width: 40%;
 }
 
 button {
