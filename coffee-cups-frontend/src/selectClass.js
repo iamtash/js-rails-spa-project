@@ -1,21 +1,25 @@
 class Select {
     constructor(objType) {
         this.type = objType
+        this.buildSelectNode(objType)
+    }
+
+    buildSelectNode(objType) {
         this.selectNode = document.createElement('select')
         this.selectNode.name = objType
         this.selectNode.id = `${objType}-dropdown`
-        this.selectNode.appendChild(this.constructor.renderObjOption(null, objType))
+        this.selectNode.appendChild(this.constructor.renderOption(objType))
     }
 
-    static renderObjOption(obj, objType, rating) {
+    static renderOption(objType, obj, rating) {
         let option = document.createElement('option')
     
-        if (obj) {
+        if (objType) option.label = `No ${objType} selected`
+        else if (obj) {
             option.value = obj.id
             if (obj.method) option.label = obj.method
             else if (obj.name) option.label = obj.name 
-        } else if (rating) option.value = option.label = rating
-        else option.label = `No ${objType} selected`
+        } else option.value = option.label = rating
     
         return option
     }
@@ -41,7 +45,7 @@ class Select {
     
         function renderObjOptions(objs) {
             objs.forEach((obj) => {
-                this.selectNode.appendChild(this.constructor.renderObjOption(obj)) 
+                this.selectNode.appendChild(this.constructor.renderOption(null, obj)) 
             })
         }
         
@@ -66,7 +70,7 @@ class Select {
     static generateRatingSelect(e) {
         let ratingSelectObj = new Select('rating')
         const ratings = [1, 2, 3, 4, 5]
-        ratings.forEach(rating => ratingSelectObj.selectNode.appendChild(this.renderObjOption(undefined, undefined, rating)))
+        ratings.forEach(rating => ratingSelectObj.selectNode.appendChild(this.renderOption(null, null, rating)))
         e.target.parentNode.parentNode.appendChild(ratingSelectObj.labeledDropdown)
     }
 
