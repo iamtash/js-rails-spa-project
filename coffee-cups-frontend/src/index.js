@@ -12,10 +12,8 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch(CUPS_URL)
         .then(resp => resp.json())
         .then(json => Cup.buildCupObjects(json))
-        .then(cupObjs => {
-            Cup.renderCups(cupObjs)
-            cups = cupObjs
-        })
+        .then(cupObjs => Cup.renderCups(cupObjs))
+        .catch(error => console.log(error.message))
 })
 
 function newCupButton() {

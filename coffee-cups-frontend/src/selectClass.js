@@ -52,6 +52,7 @@ class Select {
         fetch(url)
         .then(resp => resp.json())
         .then(json => renderObjOptions.call(this, json))
+        .catch(error => console.log(error.message))
     }
 
     static generateOrUpdateCoffeeSelect(e) {
