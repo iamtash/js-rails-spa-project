@@ -4,10 +4,11 @@ const BREWS_URL = `${BASE_URL}/brews`
 const ROASTERS_URL = `${BASE_URL}/roasters`
 
 let outerContainer = document.querySelector('div.outer-container')
-let cups
+let cupsContainer
 
 document.addEventListener('DOMContentLoaded', function() {
     outerContainer.appendChild(newCupButton())
+    generateCupsWrapper()
     fetch(CUPS_URL)
         .then(resp => resp.json())
         .then(json => Cup.buildCupObjects(json))
@@ -19,12 +20,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function newCupButton() {
     let button = document.createElement('button')
+    button.id = 'new-cup'
     button.textContent = 'Sip a cup'
     button.addEventListener('click', function() {
-        outerContainer.innerHTML = ''
+        button.style.display = 'none'
+        cupsContainer.style.display = 'none'
         outerContainer.appendChild(generateNewCupForm())
     })
     return button
+}
+
+function generateCupsWrapper() {
+    cupsContainer = document.createElement('div')
+    cupsContainer.className = 'cups-wrapper'
+    outerContainer.appendChild(cupsContainer)
 }
 
 
