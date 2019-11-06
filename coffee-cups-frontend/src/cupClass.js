@@ -22,7 +22,6 @@ class Cup {
         const cupText = document.createElement('span')
         cupText.className = 'text'
         cupDiv.appendChild(cupText)
-        console.log(this)
         cupText.innerHTML = `${this.user.name} had ${this.aOrAn} ${this.brew.method} on ${this.postDate}.` + '<br>' + `Coffee: ${this.coffee.name}` + '<br>' + `Roaster: ${this.coffee.roaster.name}` + '<br>' + `Rating: ${this.rating.rating}`
         // add buttons and event listeners
         return cupDiv
@@ -31,7 +30,7 @@ class Cup {
     static renderCups(cups) {
         const reverseSortedCups = cups.sort((a,b) => Date.parse(`${b.createdAt}`) - Date.parse(`${a.createdAt}`))
         reverseSortedCups.forEach((cup) => {
-            outerContainer.appendChild(cup.renderCup())
+            cupsContainer.appendChild(cup.renderCup())
         })
     }
 
