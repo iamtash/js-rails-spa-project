@@ -3,6 +3,7 @@ const CUPS_URL = `${BASE_URL}/cups`
 const BREWS_URL = `${BASE_URL}/brews`
 const ROASTERS_URL = `${BASE_URL}/roasters`
 
+let currentUser
 let outerContainer = document.querySelector('div.outer-container')
 let cupsContainer
 
@@ -23,7 +24,8 @@ function newCupButton() {
     button.addEventListener('click', function() {
         button.style.display = 'none'
         cupsContainer.style.display = 'none'
-        outerContainer.appendChild(generateNewCupForm())
+        let newCupFormObj = new NewCupForm('cup')
+        outerContainer.appendChild(newCupFormObj.formNode)
     })
     return button
 }
