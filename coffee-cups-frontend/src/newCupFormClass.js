@@ -5,16 +5,14 @@ class NewCupForm extends Form {
         const objTypes = ['brew', 'roaster']
         objTypes.forEach(objType => this.inputFields.appendChild(Select.generateObjsDropdown(objType)))
 
-        this.fieldset.appendChild(this.inputFields)
-        this.fieldset.appendChild(this.constructor.buildSubmit(this.constructor.submitNewCup))
-        this.formNode.appendChild(this.fieldset)
+        this.assembleFormElements(this.constructor.submitNewCup)
     }
 
     static submitNewCup(e) {
         e.preventDefault()
         e.target.form.remove()
-        let configObj = Object.assign({}, newObjConfigObj, this.newCupConfigObjBody(e))
-        this.fetchNewCup(configObj)
+        let configObj = Object.assign({}, newObjConfigObj, NewCupForm.newCupConfigObjBody(e))
+        NewCupForm.fetchNewCup(configObj)
     }
 
     static newCupConfigObjBody(e) {
