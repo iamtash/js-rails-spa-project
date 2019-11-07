@@ -80,3 +80,9 @@ button:hover {
     border-color: #f6b93b ;
     transition: all 0.4s ease 0s;
 }
+
+input.text-input {
+    display: table;
+    margin: 1em;
+    width: 40%;
+}
