@@ -3,18 +3,28 @@ const CUPS_URL = `${BASE_URL}/cups`
 const BREWS_URL = `${BASE_URL}/brews`
 const ROASTERS_URL = `${BASE_URL}/roasters`
 const USERS_URL = `${BASE_URL}/users`
+const SESSIONS_URL = `${BASE_URL}/sessions`
 
 let currentUser
 let outerContainer = document.querySelector('div.outer-container')
 let cupsContainer
 
+const loginFields = ['email', 'password']
+const signupFields = ['name', ...loginFields]
+
 document.addEventListener('DOMContentLoaded', function() {
-    renderUserSignup()
+    renderUserLogin()
 })
 
 function renderUserSignup() {
-    let newUserForm = new NewUserForm('user')
+    let newUserForm = new NewUserForm('user', signupFields)
     outerContainer.appendChild(newUserForm.formNode)
+    // button with event listener to login
+}
+
+function renderUserLogin() {
+    let newSessionForm = new NewSessionForm('session', loginFields)
+    outerContainer.appendChild(newSessionForm.formNode)
 }
 
 function getCups() {

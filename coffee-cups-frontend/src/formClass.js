@@ -37,6 +37,7 @@ class Form {
 
         if (this.type === 'cup') legendText = 'Sip a cup'
         else if (this.type === 'user') legendText = 'User Signup'
+        else if (this.type === 'session') legendText = 'User Login'
 
         legend.innerHTML = '<h2>' + legendText + '</h2>'
         
@@ -51,6 +52,11 @@ class Form {
         else if (this.type === 'user') submit.value = 'Sign up'
         submit.addEventListener('click', (e) => submitNewObjFunc(e))
         return submit
+    }
+
+    static submitNewObj(e) {
+        e.preventDefault()
+        e.target.form.remove() 
     }
 
 
