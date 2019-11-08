@@ -15,17 +15,22 @@ class NewCupForm extends Form {
     }
 
     static newCupConfigObjBody(e) {
-        let data = {
-            cup: {
-                user_id: currentUser.id,
-                brew_id: e.target.form.elements.brew.value,
-                coffee_id: e.target.form.elements.coffee.value,
-                rating_attributes: {
-                    rating: e.target.form.elements.rating.value
+        try {
+            let data = {
+                cup: {
+                    user_id: currentUser.id,
+                    brew_id: e.target.form.elements.brew.value,
+                    coffee_id: e.target.form.elements.coffee.value,
+                    rating_attributes: {
+                        rating: e.target.form.elements.rating.value
+                    }
                 }
             }
+            return { body: JSON.stringify(data) }
+        } catch {
+            console.log('Issue submitting new cup data')
+            renderNewCupForm()
         }
-        return { body: JSON.stringify(data) }
     }
 
     static fetchNewCup(configObj) {
