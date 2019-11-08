@@ -17,17 +17,17 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 function renderUserSignup() {
-    let newUserForm = new NewUserForm('user', signupFields)
+    let newUserFormObj = new NewUserForm('user', signupFields)
     outerContainer.innerHTML = ''
-    outerContainer.appendChild(newUserForm.formNode)
-    outerContainer.appendChild(newUserForm.exitOption)
+    outerContainer.appendChild(newUserFormObj.formNode)
+    outerContainer.appendChild(newUserFormObj.exitOption)
 }
 
 function renderUserLogin() {
-    let newSessionForm = new NewSessionForm('session', loginFields)
+    let newSessionFormObj = new NewSessionForm('session', loginFields)
     outerContainer.innerHTML = ''
-    outerContainer.appendChild(newSessionForm.formNode)
-    outerContainer.appendChild(newSessionForm.exitOption)
+    outerContainer.appendChild(newSessionFormObj.formNode)
+    outerContainer.appendChild(newSessionFormObj.exitOption)
 }
 
 function getCups() {
@@ -47,17 +47,27 @@ function newCupButton() {
     let button = document.createElement('button')
     button.id = 'new-cup-button'
     button.textContent = 'Sip a cup'
-    button.addEventListener('click', function() {
-        button.style.display = 'none'
-        cupsContainer.style.display = 'none'
-        let newCupFormObj = new NewCupForm('cup')
-        outerContainer.appendChild(newCupFormObj.formNode)
-    })
+    button.addEventListener('click', () => renderNewCupForm())
     return button
+}
+
+function renderNewCupForm() {
+    document.querySelector('button#new-cup-button').style.display = 'none'
+    cupsContainer.style.display = 'none'
+    let newCupFormObj = new NewCupForm('cup')
+    outerContainer.appendChild(newCupFormObj.formNode)
+    outerContainer.appendChild(newCupFormObj.exitOption)
 }
 
 function generateCupsWrapper() {
     cupsContainer = document.createElement('div')
     cupsContainer.className = 'cups-wrapper'
     outerContainer.appendChild(cupsContainer)
+}
+
+function revealButtonAndCups() {
+    document.querySelector('form#new-cup').remove()
+    document.querySelector('div.exit-option').remove()
+    document.querySelector('button#new-cup-button').style.display = 'block'
+    cupsContainer.style.display = 'block'
 }
