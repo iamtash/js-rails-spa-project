@@ -38,7 +38,7 @@ class NewCupForm extends Form {
     static addNewCupToDOM(cup) {
         let newCup = new Cup(cup.id, cup.user, cup.brew, cup.coffee, cup.rating, cup.created_at)
         cupsContainer.prepend(newCup.renderCup())
-        document.querySelector('button#new-cup').style.display = 'block'
+        document.querySelector('#new-cup-button').style.display = 'block'
         cupsContainer.style.display = 'block'
     }
 }
