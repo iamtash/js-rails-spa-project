@@ -1,6 +1,11 @@
 class SessionsController < ApplicationController
   def create
-    login(email: user_params[:email], password: user_params[:password])
+    user = User.find_by(email: user_params[:email])
+    if user && user.authenticate(user_params[:password])
+      render json: UserSerializer.new(user).to_serialized_json
+    else
+      render json: 'user login failed'
+    end
   end
 
   private
@@ -8,6 +13,7 @@ class SessionsController < ApplicationController
       params.require(:user).permit(:email, :password)
   end
 end
+
 
 
 
