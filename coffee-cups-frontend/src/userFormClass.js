@@ -30,7 +30,7 @@ class UserForm extends Form {
     static fetchUser(url, configObj, catchFunc, failure) {
         fetch(url, configObj)
         .then(resp => resp.json())
-        .then(user => currentUser = new User(user.id, user.name, user.email))
+        .then(user => currentUser = new User(user))
         .then(() => getCups())
         .catch(error => {
             console.log(`${failure} FAILED`)
