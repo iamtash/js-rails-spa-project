@@ -5,8 +5,8 @@ const ROASTERS_URL = `${BASE_URL}/roasters`
 const USERS_URL = `${BASE_URL}/users`
 const SESSIONS_URL = `${BASE_URL}/sessions`
 
+const outerContainer = document.querySelector('div.outer-container')
 let currentUser
-let outerContainer = document.querySelector('div.outer-container')
 let cupsContainer
 
 const loginFields = ['email', 'password']
@@ -18,17 +18,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function renderUserSignup() {
     let newUserForm = new NewUserForm('user', signupFields)
+    outerContainer.innerHTML = ''
     outerContainer.appendChild(newUserForm.formNode)
-    // button with event listener to login
+    outerContainer.appendChild(newUserForm.exitOption)
 }
 
 function renderUserLogin() {
     let newSessionForm = new NewSessionForm('session', loginFields)
+    outerContainer.innerHTML = ''
     outerContainer.appendChild(newSessionForm.formNode)
+    outerContainer.appendChild(newSessionForm.exitOption)
 }
 
 function getCups() {
     if (currentUser.id) {
+        outerContainer.innerHTML = ''
         outerContainer.appendChild(newCupButton())
         generateCupsWrapper()
         fetch(CUPS_URL)
@@ -41,7 +45,7 @@ function getCups() {
 
 function newCupButton() {
     let button = document.createElement('button')
-    button.id = 'new-cup'
+    button.id = 'new-cup-button'
     button.textContent = 'Sip a cup'
     button.addEventListener('click', function() {
         button.style.display = 'none'
