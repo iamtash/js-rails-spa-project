@@ -75,6 +75,48 @@ class Form {
     static submitNewObj(e) {
         e.preventDefault()
         e.target.form.remove() 
+        document.querySelector('div.exit-option').remove()
+    }
+
+    get exitOption() { 
+        function addButtonEventListener(renderOtherView) {
+            button.addEventListener('click', () => renderOtherView())
+        }
+
+        let exitOption = document.createElement('div')
+        exitOption.className = 'exit-option'
+        let exitText = document.createElement('h4')
+        let button = document.createElement('button')
+        button.className = 'exit-option'
+
+        exitText.innerText = this.exitOptionContent.exitText
+        button.textContent = this.exitOptionContent.buttonText
+        addButtonEventListener(this.exitOptionContent.renderFunc)
+
+        exitOption.appendChild(exitText)
+        exitOption.appendChild(button)
+        return exitOption
+    }
+
+    get exitOptionContent() {
+        let exitOptionContent = {}
+        switch (this.type) {
+            case 'user':
+                exitOptionContent.exitText = 'Already have an account?'
+                exitOptionContent.buttonText = 'Log in'
+                exitOptionContent.renderFunc = renderUserLogin
+                return exitOptionContent
+            case 'session':
+                exitOptionContent.exitText = "Don't have an account?"
+                exitOptionContent.buttonText = 'Sign up'
+                exitOptionContent.renderFunc = renderUserSignup
+                return exitOptionContent
+            case 'cup':
+                exitOptionContent.exitText = 'Nevermind?'
+                exitOptionContent.buttonText = 'Go back'
+                exitOptionContent.renderFunc = revealButtonAndCups
+                return exitOptionContent
+        }
     }
 
 
