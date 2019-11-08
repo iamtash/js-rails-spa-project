@@ -33,11 +33,7 @@ class Form {
     buildFieldset() {
         let fieldset = document.createElement('fieldset')
         let legend = document.createElement('legend')
-        let legendText
-
-        if (this.type === 'cup') legendText = 'Sip a cup'
-        else if (this.type === 'user') legendText = 'User Signup'
-        else if (this.type === 'session') legendText = 'User Login'
+        let legendText = this.fieldsetLegendText
 
         legend.innerHTML = '<h2>' + legendText + '</h2>'
         
@@ -45,13 +41,35 @@ class Form {
         return fieldset
     }
 
+    get fieldsetLegendText() {
+        switch (this.type) {
+            case 'cup':
+                return 'Sip a cup'
+            case 'user':
+                return 'User Signup'
+            case 'session':
+                return 'User Login'
+        }
+    }
+
     buildSubmit(submitNewObjFunc) {
-        let submit = document.createElement('input')
+        let submit = document.createElement('button')
         submit.type = 'submit'
-        if (this.type === 'cup') submit.value = 'Post'
-        else if (this.type === 'user') submit.value = 'Sign up'
+        submit.className = 'submit-button'
+        submit.textContent = this.submitButtonText
         submit.addEventListener('click', (e) => submitNewObjFunc(e))
         return submit
+    }
+
+    get submitButtonText() {
+        switch (this.type) {
+            case 'cup':
+                return 'Post'
+            case 'user':
+                return 'Sign up'
+            case 'session':
+                return 'Log in'
+        }
     }
 
     static submitNewObj(e) {
@@ -61,3 +79,6 @@ class Form {
 
 
 }
+
+
+
