@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'brews' => 'brews#index'
   get 'roasters' => 'roasters#index'
   post 'users' => 'users#create'
+  post 'sessions' => 'sessions#create'
 
   resources :roasters, only: [:index] do
     resources :coffees, only: [:index]
