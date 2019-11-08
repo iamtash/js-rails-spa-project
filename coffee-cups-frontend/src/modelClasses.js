@@ -1,16 +1,16 @@
 class Cup {
-    constructor(id, user, brew, coffee, rating, createdAt) {
-        this.id = id 
-        this.user = user
-        this.brew = brew
-        this.coffee = coffee
-        this.rating = rating
-        this.createdAt = createdAt
+    constructor(attributes) {
+        this.id = attributes.id 
+        this.user = new User(attributes.user)
+        this.brew = attributes.brew
+        this.coffee = attributes.coffee
+        this.rating = attributes.rating
+        this.createdAt = attributes.created_at
     }
 
     static buildCupObjects(cups) {
-        return cups.map((cup) => {
-            return new Cup(cup.id, cup.user, cup.brew, cup.coffee, cup.rating, cup.created_at)
+        return cups.map((cupAttributes) => {
+            return new Cup(cupAttributes)
         })
     }
 
@@ -22,7 +22,7 @@ class Cup {
         const cupText = document.createElement('span')
         cupText.className = 'text'
         cupDiv.appendChild(cupText)
-        cupText.innerHTML = `${this.userName} had ${this.aOrAn} ${this.brew.method} on ${this.postDate}.` + '<br>' + `Coffee: ${this.coffee.name}` + '<br>' + `Roaster: ${this.coffee.roaster.name}` + '<br>' + `Rating: ${this.rating.rating}`
+        cupText.innerHTML = `${this.user.capitalizedName} had ${this.aOrAn} ${this.brew.method} on ${this.postDate}.` + '<br>' + `Coffee: ${this.coffee.name}` + '<br>' + `Roaster: ${this.coffee.roaster.name}` + '<br>' + `Rating: ${this.rating.rating}`
         // add buttons and event listeners
         return cupDiv
     }
@@ -43,21 +43,21 @@ class Cup {
         this.createdAt.split('T')[1]
     }
 
-    get aOrAn() {let vowels = /[aeiouAEIOU]/
-        if (vowels.test(this.brew.method.charAt(0))) return 'an'
-        return 'a'
-    }
-
-    get userName() {
-        return this.user.name.toLowerCase().split(' ').map(name => name.charAt(0).toUpperCase() + name.slice(1)).join(' ')
+    get aOrAn() {
+        const vowels = /[aeiouAEIOU]/
+        return vowels.test(this.brew.method.charAt(0)) ? 'an' :'a'
     }
 }
 
 class User {
-    constructor(id, name, email) {
-        this.id = id
-        this.name = name
-        this.email = email
+    constructor(attributes) {
+        this.id = attributes.id
+        this.name = attributes.name
+        this.email = attributes.email
+    }
+
+    get capitalizedName() {
+        return this.name.toLowerCase().split(' ').map(name => name.charAt(0).toUpperCase() + name.slice(1)).join(' ')
     }
 }
 
