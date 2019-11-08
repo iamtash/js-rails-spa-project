@@ -22,7 +22,7 @@ class Cup {
         const cupText = document.createElement('span')
         cupText.className = 'text'
         cupDiv.appendChild(cupText)
-        cupText.innerHTML = `${this.user.name} had ${this.aOrAn} ${this.brew.method} on ${this.postDate}.` + '<br>' + `Coffee: ${this.coffee.name}` + '<br>' + `Roaster: ${this.coffee.roaster.name}` + '<br>' + `Rating: ${this.rating.rating}`
+        cupText.innerHTML = `${this.userName} had ${this.aOrAn} ${this.brew.method} on ${this.postDate}.` + '<br>' + `Coffee: ${this.coffee.name}` + '<br>' + `Roaster: ${this.coffee.roaster.name}` + '<br>' + `Rating: ${this.rating.rating}`
         // add buttons and event listeners
         return cupDiv
     }
@@ -46,6 +46,10 @@ class Cup {
     get aOrAn() {let vowels = /[aeiouAEIOU]/
         if (vowels.test(this.brew.method.charAt(0))) return 'an'
         return 'a'
+    }
+
+    get userName() {
+        return this.user.name.toLowerCase().split(' ').map(name => name.charAt(0).toUpperCase() + name.slice(1)).join(' ')
     }
 }
 
