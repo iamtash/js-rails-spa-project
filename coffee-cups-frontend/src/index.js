@@ -18,16 +18,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function renderUserSignup() {
     let newUserFormObj = new NewUserForm('user', signupFields)
-    outerContainer.innerHTML = ''
-    outerContainer.appendChild(newUserFormObj.formNode)
-    outerContainer.appendChild(newUserFormObj.exitOption())
+    renderUserForm(newUserFormObj)
 }
 
 function renderUserLogin() {
     let newSessionFormObj = new NewSessionForm('session', loginFields)
+    renderUserForm(newSessionFormObj)
+}
+
+function renderUserForm(formObj) {
     outerContainer.innerHTML = ''
-    outerContainer.appendChild(newSessionFormObj.formNode)
-    outerContainer.appendChild(newSessionFormObj.exitOption())
+    outerContainer.appendChild(formObj.formNode)
+    outerContainer.appendChild(formObj.exitOption())
 }
 
 function getCups() {
