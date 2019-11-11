@@ -3,7 +3,7 @@ class NewCupForm extends Form {
         super(objType)
 
         const objTypes = ['brew', 'roaster']
-        objTypes.forEach(objType => this.inputFields.appendChild(Select.generateObjsDropdown(objType)))
+        objTypes.forEach(objType => this.inputFields.appendChild(ModelSelect.generateObjsDropdown(objType)))
 
         this.assembleFormElements(this.constructor.submitNewObj)
     }
@@ -11,6 +11,7 @@ class NewCupForm extends Form {
     static submitNewObj(e) {
         super.submitNewObj(e)
         let configObj = Object.assign({}, newObjConfigObj, NewCupForm.newCupConfigObjBody(e))
+
         NewCupForm.fetchNewCup(configObj)
     }
 
@@ -37,11 +38,14 @@ class NewCupForm extends Form {
         fetch(CUPS_URL, configObj)
             .then(resp => resp.json())
             .then(newCup => this.addNewCupToDOM(newCup)) 
-            .catch(error => console.log(error.message))
+            .catch(error => {
+                console.log(error.message)
+                renderNewCupForm()
+            })
     }
 
-    static addNewCupToDOM(cup) {
-        let newCup = new Cup(cup.id, cup.user, cup.brew, cup.coffee, cup.rating, cup.created_at)
+    static addNewCupToDOM(cupAttributes) {
+        let newCup = new Cup(cupAttributes)
         cupsContainer.prepend(newCup.renderCup())
         document.querySelector('#new-cup-button').style.display = 'block'
         cupsContainer.style.display = 'block'
