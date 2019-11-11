@@ -43,7 +43,7 @@ div.cup-card {
 }
 
 div.cup-card:hover {
-    border: 2px solid #696969;
+    border: 1px solid #696969;
     padding: 1em;
     background: #696969;
     color: solid white;
