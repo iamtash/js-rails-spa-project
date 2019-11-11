@@ -89,9 +89,10 @@ class Form {
         let button = document.createElement('button')
         button.className = 'exit-option'
 
-        exitText.innerText = this.exitOptionContent().exitText
-        button.textContent = this.exitOptionContent().buttonText
-        addButtonEventListener(this.exitOptionContent().renderFunc)
+        let exitOptionContent = this.exitOptionContent()
+        exitText.innerText = exitOptionContent.exitText
+        button.textContent = exitOptionContent.buttonText
+        addButtonEventListener(exitOptionContent.renderFunc)
 
         exitOption.appendChild(exitText)
         exitOption.appendChild(button)
