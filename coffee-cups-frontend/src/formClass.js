@@ -78,7 +78,7 @@ class Form {
         document.querySelector('div.exit-option').remove()
     }
 
-    get exitOption() { 
+    exitOption() { 
         function addButtonEventListener(renderOtherView) {
             button.addEventListener('click', () => renderOtherView())
         }
@@ -89,16 +89,16 @@ class Form {
         let button = document.createElement('button')
         button.className = 'exit-option'
 
-        exitText.innerText = this.exitOptionContent.exitText
-        button.textContent = this.exitOptionContent.buttonText
-        addButtonEventListener(this.exitOptionContent.renderFunc)
+        exitText.innerText = this.exitOptionContent().exitText
+        button.textContent = this.exitOptionContent().buttonText
+        addButtonEventListener(this.exitOptionContent().renderFunc)
 
         exitOption.appendChild(exitText)
         exitOption.appendChild(button)
         return exitOption
     }
 
-    get exitOptionContent() {
+    exitOptionContent() {
         let exitOptionContent = {}
         switch (this.type) {
             case 'user':
