@@ -2,8 +2,8 @@ class NewCupForm extends Form {
     constructor (objType) {
         super(objType)
 
-        const objTypes = ['brew', 'roaster']
-        objTypes.forEach(objType => this.inputFields.appendChild(ModelSelect.generateObjsDropdown(objType)))
+        const objTypes = ['brew'/*, 'roaster'*/]
+        objTypes.forEach(objType => this.inputFields.appendChild(new InputWithFilter(objType).input))
 
         this.assembleFormElements(this.constructor.submitNewObj)
     }
