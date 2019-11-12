@@ -75,7 +75,7 @@ class ModelSelect {
         if (roasterId) url = `${BASE_URL}/roasters/${roasterId}/${this.selectHelper.type}s`
         else url = `${BASE_URL}/${this.selectHelper.type}s`
     
-        function renderObjOptions(objs) {
+        const renderObjOptions = (objs) => {
             objs.forEach((obj) => {
                 this.selectHelper.selectNode.appendChild(this.selectHelper.renderOption(obj)) 
             })
@@ -83,10 +83,10 @@ class ModelSelect {
         
         fetch(url)
         .then(resp => resp.json())
-        .then(json => renderObjOptions.call(this, json))
+        .then(json => renderObjOptions(json)) 
         .catch(error => console.log(error.message))
     }
-    
+
 
     static generateOrUpdateCoffeeSelect(e) { 
         let roasterId = e.target.value
