@@ -60,6 +60,10 @@ function renderNewCupForm() {
     let newCupFormObj = new NewCupForm('cup')
     outerContainer.appendChild(newCupFormObj.formNode)
     outerContainer.appendChild(newCupFormObj.exitOption())
+    document.querySelector('header').addEventListener('click', () => {
+        clearCurrentNewCupView()
+        revealButtonAndCups()
+    })
 }
 
 function generateCupsWrapper() {
