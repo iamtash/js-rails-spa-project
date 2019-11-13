@@ -1,34 +1,47 @@
 class InputWithFilter {
     constructor(objType) {
         this.type = objType
+        this.setAttribute()
+        this.inputDiv = this.buildInputDiv(objType)
         this.fetchObjects()
-        this.input = this.buildInput(objType)
     }
 
-    buildInput(objType) {
+    setAttribute() {
+        if (this.type === 'brew') this.attribute = 'method'
+        else this.attribute = 'name'
+    }
+
+    buildInputDiv(objType) {
         let inputDiv = document.createElement('div')
         inputDiv.id = `${objType}-input-div`
-        let inputNode = document.createElement('input')
-        inputNode.type = 'text'
-        inputNode.name = objType
-        inputNode.id = `${objType}-input`
-        inputNode.className = 'text-input'
-        inputNode.placeholder = this.type
+
+        let input = this.buildInput()
+        
         let datalist = document.createElement('datalist')
         datalist.id = `${objType}-suggestions`
-        inputNode.setAttribute('list', `${objType}-suggestions`)
-        inputNode.addEventListener('keydown', (e) => this.filterObjects(e))
-        inputDiv.appendChild(inputNode)
+        input.setAttribute('list', `${objType}-suggestions`)
+
+        inputDiv.appendChild(input)
         inputDiv.appendChild(datalist)
         return inputDiv
     }
 
+    buildInput() {
+        let input = document.createElement('input')
+        input.type = 'text'
+        input.name = input.placeholder = this.type
+        input.id = `${this.type}-input`
+        input.className = 'text-input'
+        input.addEventListener('keydown', (e) => this.filterObjects(e))
+        return input
+    }
+
     fetchObjects() {
-        this.objects = []
+        this[`${this.type}s`] = []
         let url = `${BASE_URL}/${this.type}s`
 
         const saveObjects = (objs) => {
-            objs.forEach(obj => this.objects.push(obj))
+            objs.forEach(obj => this[`${this.type}s`].push(obj))
         }
         
         fetch(url)
@@ -38,7 +51,9 @@ class InputWithFilter {
     }
 
     filterObjects(e) {
-        let filteredObjects = this.objects.filter(obj => obj.method.includes(e.target.value))
+        let filteredObjects = this[`${this.type}s`].filter(obj => {
+            return obj[this.attribute].toLowerCase().includes(e.target.value.toLowerCase())
+        })
         this.renderOptions(filteredObjects)
     }
 
@@ -51,7 +66,7 @@ class InputWithFilter {
     renderOption(obj) {
         let option = document.createElement('option')
         option.dataset.id = obj.id
-        option.value = obj.method
+        option.value = obj[this.attribute]
         return option
     }
 }
