@@ -1,3 +1,11 @@
+const deleteCupConfigObj = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    }
+}
+
 class Cup {
     constructor(attributes) {
         this.id = attributes.id 
@@ -21,10 +29,70 @@ class Cup {
         cupDiv.dataset.userId = this.user.id
         const cupText = document.createElement('span')
         cupText.className = 'text'
-        cupDiv.appendChild(cupText)
         cupText.innerHTML = `${this.user.capitalizedName} had ${this.aOrAn} ${this.brew.method} on ${this.postDate}.` + '<br>' + `Coffee: ${this.coffee.name}` + '<br>' + `Roaster: ${this.coffee.roaster.name}` + '<br>' + `Rating: ${this.rating.rating}`
-        // add buttons and event listeners
+        cupDiv.appendChild(cupText).appendChild(this.createCupDeleteButton())
         return cupDiv
+    }
+
+    createCupDeleteButton() {
+        let form = this.createDeleteForm()
+        let submit = this.createDeleteFormSubmit()
+        form.appendChild(submit)
+        if (currentUser.id === this.user.id) form.style.display = 'inline'
+        else form.style.display = 'none'
+        form.addEventListener('submit', (e) => {
+            e.preventDefault()
+            this.deleteConfirmPopup(e)
+        })
+        return form
+    }
+
+    createDeleteForm() {
+        let form = document.createElement('form')
+        form.name = 'cup'
+        form.action = '#'
+        form.method = 'delete'
+        form.className = 'delete-cup-form'
+        form.dataset.id = this.id
+        form.dataset.userId = this.user.id
+        return form
+    }
+
+    createDeleteFormSubmit() {
+        let submit = document.createElement('input')
+        submit.type = 'submit'
+        submit.value = 'Delete'
+        submit.className = 'delete-cup-button'
+        return submit
+    }
+
+    deleteConfirmPopup(e) {
+        if (confirm(`${currentUser.name}, are you sure you want to delete this cup?`)) {
+            this.constructor.deleteCup(e)
+        } else {
+            console.log('Cup deletion cancelled')
+            return null
+        }
+    }
+
+    static deleteCup(e) {
+        const cupURL = `${CUPS_URL}/${e.target.dataset.id}`
+        const configObj = Object.assign({}, deleteCupConfigObj, this.deleteCupConfigObjBody(e))
+        fetch(cupURL, configObj)
+            .then(resp => resp.json())
+            .then(deletedCup => this.removeCupFromDOM(deletedCup))
+            .catch(error => console.log(error.message))
+        }
+
+    static deleteCupConfigObjBody(e) {
+        let bodyValue = {
+            cup: {id: e.target.dataset.id}
+        }
+        return { body: JSON.stringify(bodyValue) }
+    }
+
+    static removeCupFromDOM(cup) {
+        document.querySelector(`div[data-id='${cup.id}']`).remove()
     }
 
     static renderCups(cups) {

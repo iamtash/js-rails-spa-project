@@ -93,11 +93,20 @@ button.submit-button {
     margin-bottom: 1em;
 }
 
-button:hover {
+button:hover, input.delete-cup-button:hover {
     color: #ffffff ;
     background: #f6b93b;
     border-color: #f6b93b ;
     transition: all 0.4s ease 0s;
+}
+
+input.delete-cup-button {
+    float: right;
+    color: #696969;
+    background: #ffffff;
+    border: 2px solid #696969;
+    transition: all 0.4s ease 0s;
+    text-transform: uppercase;
 }
 
 input.text-input {

@@ -11,6 +11,12 @@ class CupsController < ApplicationController
         end
     end
 
+    def destroy
+        cup = Cup.find_by(id: params[:id])
+        cup.destroy
+        render json: cup.to_json(only: [:id])
+    end
+
     private 
         def cup_params
             params.require(:cup).permit(

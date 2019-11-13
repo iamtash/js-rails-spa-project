@@ -10,7 +10,7 @@ class NewCupForm extends Form {
 
     static submitNewObj(e) {
         super.submitNewObj(e)
-        let configObj = Object.assign({}, newObjConfigObj, NewCupForm.newCupConfigObjBody(e))
+        const configObj = Object.assign({}, newObjConfigObj, NewCupForm.newCupConfigObjBody(e))
 
         NewCupForm.fetchNewCup(configObj)
     }
