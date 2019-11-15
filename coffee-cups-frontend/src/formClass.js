@@ -11,7 +11,6 @@ class Form {
         this.type = objType
         this.formNode = this.buildFormNode()
         this.fieldset = this.buildFieldset()
-
         this.inputFields = document.createElement('div')
         this.inputFields.id = 'input-fields'
     }
@@ -34,9 +33,7 @@ class Form {
         let fieldset = document.createElement('fieldset')
         let legend = document.createElement('legend')
         let legendText = this.fieldsetLegendText
-
         legend.innerHTML = '<h2>' + legendText + '</h2>'
-        
         fieldset.appendChild(legend)
         return fieldset
     }
@@ -115,7 +112,7 @@ class Form {
             case 'cup':
                 exitOptionContent.exitText = 'Nevermind?'
                 exitOptionContent.buttonText = 'Go back'
-                exitOptionContent.renderFunc = revealButtonAndCups
+                exitOptionContent.renderFunc = revealHomeView
                 return exitOptionContent
         }
     }
