@@ -29,9 +29,20 @@ class Cup {
         cupDiv.dataset.userId = this.user.id
         const cupText = document.createElement('span')
         cupText.className = 'text'
-        cupText.innerHTML = `${this.user.capitalizedName} had ${this.aOrAn} ${this.brew.method} on ${this.postDate}.` + '<br>' + `Coffee: ${this.coffee.name}` + '<br>' + `Roaster: ${this.coffee.roaster.name}` + '<br>' + `Rating: ${this.rating.rating}`
+        cupText.innerHTML = this.getCupText()
         cupDiv.appendChild(cupText).appendChild(this.createCupDeleteButton())
         return cupDiv
+    }
+
+    getCupText() {
+        return `${this.user.capitalizedName} had ${this.aOrAn} ${this.brew.method} on ${this.postDate}.` + '<br>' + `Coffee: ${this.coffee.name}` + '<br>' + `Roaster: ${this.coffee.roaster.name}` + '<br>' + `Rating: ${this.rating.rating}`
+    }
+
+    static renderCups(cups) {
+        const reverseSortedCups = cups.sort((a,b) => Date.parse(`${b.createdAt}`) - Date.parse(`${a.createdAt}`))
+        reverseSortedCups.forEach((cup) => {
+            cupsContainer.appendChild(cup.renderCup())
+        })
     }
 
     createCupDeleteButton() {
@@ -39,7 +50,10 @@ class Cup {
         let submit = this.createDeleteFormSubmit()
         form.appendChild(submit)
         if (currentUser.id === this.user.id) form.style.display = 'inline'
-        else form.style.display = 'none'
+        else {
+            form.style.display = 'none'
+            submit.disabled = 'true'
+        }
         form.addEventListener('submit', (e) => {
             e.preventDefault()
             this.deleteConfirmPopup(e)
@@ -67,7 +81,7 @@ class Cup {
     }
 
     deleteConfirmPopup(e) {
-        if (confirm(`${currentUser.name}, are you sure you want to delete this cup?`)) {
+        if (confirm(`${currentUser.capitalizedName}, are you sure you want to delete this cup?`)) {
             this.constructor.deleteCup(e)
         } else {
             console.log('Cup deletion cancelled')
@@ -81,7 +95,10 @@ class Cup {
         fetch(cupURL, configObj)
             .then(resp => resp.json())
             .then(deletedCup => this.removeCupFromDOM(deletedCup))
-            .catch(error => console.log(error.message))
+            .catch(error => {
+                console.log(error.message)
+                console.log('Cup deletion failed')
+            })
         }
 
     static deleteCupConfigObjBody(e) {
@@ -93,13 +110,6 @@ class Cup {
 
     static removeCupFromDOM(cup) {
         document.querySelector(`div[data-id='${cup.id}']`).remove()
-    }
-
-    static renderCups(cups) {
-        const reverseSortedCups = cups.sort((a,b) => Date.parse(`${b.createdAt}`) - Date.parse(`${a.createdAt}`))
-        reverseSortedCups.forEach((cup) => {
-            cupsContainer.appendChild(cup.renderCup())
-        })
     }
 
     get postDate() {
