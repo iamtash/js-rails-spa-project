@@ -26,16 +26,6 @@ class InputWithFilter {
         return inputDiv
     }
 
-    buildInput() {
-        let input = document.createElement('input')
-        input.type = 'text'
-        input.name = input.placeholder = this.type
-        input.id = `${this.type}-input`
-        input.className = 'text-input'
-        input.addEventListener('keydown', (e) => this.filterObjects(e))
-        return input
-    }
-
     fetchObjects() {
         this[`${this.type}s`] = []
         let url = `${BASE_URL}/${this.type}s`
@@ -47,10 +37,23 @@ class InputWithFilter {
         fetch(url)
         .then(resp => resp.json())
         .then(json => saveObjects(json)) 
-        .catch(error => console.log(error.message))
+        .catch(error => {
+            console.log(error.message)
+            console.log(`Error reading ${this.type}s from database`)
+        })
     }
 
-    filterObjects(e) {
+    buildInput() {
+        let input = document.createElement('input')
+        input.type = 'text'
+        input.name = input.placeholder = this.type
+        input.id = `${this.type}-input`
+        input.className = 'text-input'
+        input.addEventListener('keydown', (e) => this.filterObjects(e))
+        return input
+    }
+
+    filterObjects(e) { // need to ensure filter isn't applied until objects have finished loading from server
         let filteredObjects = this[`${this.type}s`].filter(obj => {
             return obj[this.attribute].toLowerCase().includes(e.target.value.toLowerCase())
         })
@@ -59,7 +62,7 @@ class InputWithFilter {
 
     renderOptions(objs) {
         let datalist = document.querySelector(`datalist#${this.type}-suggestions`)
-        datalist.innerHTML = ''
+        datalist.innerHTML = '' // prevent duplication of options
         objs.forEach(obj => datalist.appendChild(this.renderOption(obj)))
     }
 
