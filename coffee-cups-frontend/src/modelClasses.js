@@ -31,6 +31,7 @@ class Cup {
         cupText.className = 'text'
         cupText.innerHTML = this.getCupText()
         cupDiv.appendChild(cupText).appendChild(this.createCupDeleteButton())
+        cupDiv.appendChild(cupText).appendChild(this.createCupEditButton())
         return cupDiv
     }
 
@@ -43,6 +44,23 @@ class Cup {
         reverseSortedCups.forEach((cup) => {
             cupsContainer.appendChild(cup.renderCup())
         })
+    }
+
+    createCupEditButton() {
+        let button = document.createElement('button')
+        button.type = 'submit'
+        button.textContent = 'Edit'
+        button.className = 'edit-cup-button'
+        button.dataset.id = this.id
+
+        if (currentUser.id === this.user.id) button.style.display = 'inline'
+        else {
+            button.style.display = 'none'
+            button.disabled = 'true'
+        }
+
+        button.addEventListener('click', (e) => renderEditCupForm(e))
+        return button
     }
 
     createCupDeleteButton() {

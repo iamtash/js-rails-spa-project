@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get 'cups' => 'cups#index'
+  get 'cups/:id' => 'cups#show'
   post 'cups' => 'cups#create'
   delete 'cups/:id' => 'cups#destroy'
   get 'brews' => 'brews#index'

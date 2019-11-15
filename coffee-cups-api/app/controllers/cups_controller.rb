@@ -11,6 +11,18 @@ class CupsController < ApplicationController
         end
     end
 
+    def show
+        cup = Cup.find_by(id: params[:id])
+        render json: cup.to_json(only: [:id, :brew_id],
+            include: {
+                coffee: {include: {
+                    roaster: {only: [:id]}
+                }, only: [:id]},
+                rating: {only: [:rating]}
+            }
+        )
+    end
+
     def destroy
         cup = Cup.find_by(id: params[:id])
         cup.destroy

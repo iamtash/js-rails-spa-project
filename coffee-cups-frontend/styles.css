@@ -109,6 +109,15 @@ input.delete-cup-button {
     text-transform: uppercase;
 }
 
+button.edit-cup-button {
+    float: right;
+    color: #696969;
+    background: #ffffff;
+    border: 2px solid #696969;
+    transition: all 0.4s ease 0s;
+    text-transform: uppercase;
+}
+
 input.text-input {
     display: table;
     margin: 1em;
