@@ -1,12 +1,12 @@
 class InputWithFilter {
     constructor(objType) {
         this.type = objType
-        this.setAttribute()
+        this.defineAttribute()
         this.inputDiv = this.buildInputDiv(objType)
         this.fetchObjects()
     }
 
-    setAttribute() {
+    defineAttribute() {
         if (this.type === 'brew') this.attribute = 'method'
         else this.attribute = 'name'
     }
