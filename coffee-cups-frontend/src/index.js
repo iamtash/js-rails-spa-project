@@ -17,13 +17,11 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 function renderUserSignup() {
-    let newUserFormObj = new NewUserForm('user', signupFields)
-    renderUserForm(newUserFormObj)
+    renderUserForm(new NewUserForm('user', signupFields))
 }
 
 function renderUserLogin() {
-    let newSessionFormObj = new NewSessionForm('session', loginFields)
-    renderUserForm(newSessionFormObj)
+    renderUserForm(new NewSessionForm('session', loginFields))
 }
 
 function renderUserForm(formObj) {
@@ -34,15 +32,19 @@ function renderUserForm(formObj) {
 
 function getCups() {
     if (currentUser.id) {
-        outerContainer.innerHTML = ''
-        outerContainer.appendChild(newCupButton())
-        generateCupsWrapper()
+        getDOMReadyForCups()
         fetch(CUPS_URL)
             .then(resp => resp.json())
             .then(json => Cup.buildCupObjects(json))
             .then(cupObjs => Cup.renderCups(cupObjs))
             .catch(error => console.log(error.message))
     } else renderUserSignup()
+}
+
+function getDOMReadyForCups() {
+    outerContainer.innerHTML = ''
+    outerContainer.appendChild(newCupButton())
+    generateCupsWrapper()
 }
 
 function newCupButton() {
@@ -53,34 +55,38 @@ function newCupButton() {
     return button
 }
 
-function renderNewCupForm() {
-    document.querySelector('button#new-cup-button').style.display = 'none'
-    cupsContainer.style.display = 'none'
-    clearCurrentNewCupView()
-    let newCupFormObj = new NewCupForm('cup')
-    outerContainer.appendChild(newCupFormObj.formNode)
-    outerContainer.appendChild(newCupFormObj.exitOption())
-    document.querySelector('header').addEventListener('click', () => {
-        clearCurrentNewCupView()
-        revealButtonAndCups()
-    })
-}
-
 function generateCupsWrapper() {
     cupsContainer = document.createElement('div')
     cupsContainer.className = 'cups-wrapper'
     outerContainer.appendChild(cupsContainer)
 }
 
-function revealButtonAndCups() {
-    clearCurrentNewCupView()
-    document.querySelector('button#new-cup-button').style.display = 'block'
-    cupsContainer.style.display = 'block'
+function renderNewCupForm() {
+    document.querySelector('button#new-cup-button').style.display = 'none'
+    cupsContainer.style.display = 'none'
+    removeNewCupForm() // prevent duplicate forms
+    let newCupFormObj = new NewCupForm('cup')
+    outerContainer.appendChild(newCupFormObj.formNode)
+    outerContainer.appendChild(newCupFormObj.exitOption())
+    makeHeaderClickable()
 }
 
-function clearCurrentNewCupView() {
+function removeNewCupForm() {
     let currentNewCupForm = document.querySelector('form#new-cup')
     let currentExitOption = document.querySelector('div.exit-option')
     if (currentNewCupForm) currentNewCupForm.remove()
     if (currentExitOption) currentExitOption.remove()
+}
+
+function makeHeaderClickable() {
+    document.querySelector('header').addEventListener('click', () => {
+        removeNewCupForm()
+        revealHomeView()
+    })
+}
+
+function revealHomeView() {
+    removeNewCupForm()
+    document.querySelector('button#new-cup-button').style.display = 'block'
+    cupsContainer.style.display = 'block'
 }
