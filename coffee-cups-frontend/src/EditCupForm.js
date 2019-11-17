@@ -34,7 +34,7 @@ class EditCupForm  {
     }
 
     buildFormNode() {
-        let form = document.createElement('form')
+        const form = document.createElement('form')
         form.id = `edit-${this.type}`
         form.action = '#'
         form.method = 'patch'
@@ -43,15 +43,15 @@ class EditCupForm  {
     }
 
     buildFieldset() {
-        let fieldset = document.createElement('fieldset')
-        let legend = document.createElement('legend')
+        const fieldset = document.createElement('fieldset')
+        const legend = document.createElement('legend')
         legend.innerHTML = '<h2>' + 'Edit your cup' + '</h2>'
         fieldset.appendChild(legend)
         return fieldset
     }
 
     buildSubmit() {
-        let submit = document.createElement('button')
+        const submit = document.createElement('button')
         submit.type = 'submit'
         submit.className = 'submit-button'
         submit.textContent = 'Update'
@@ -59,10 +59,10 @@ class EditCupForm  {
     }
 
     static exitOption() {
-        let exitOption = document.createElement('div')
+        const exitOption = document.createElement('div')
         exitOption.className = 'exit-option'
-        let exitText = document.createElement('h4')
-        let button = document.createElement('button')
+        const exitText = document.createElement('h4')
+        const button = document.createElement('button')
         button.className = 'exit-option'
 
         exitText.innerText = 'Nevermind?'
@@ -98,7 +98,7 @@ class EditCupForm  {
 
     static editCupConfigObjBody(e, editCupForm) {
         try {
-            let data = {
+            const data = {
                 cup: {
                     user_id: currentUser.id,
                     brew_id: e.target.elements.brew.value,
@@ -138,7 +138,7 @@ class EditCupForm  {
     }
 
     static updateCupInDOM(cupAttributes) {
-        let cup = new Cup(cupAttributes)
+        const cup = new Cup(cupAttributes)
         const oldCupCard = document.querySelector(`div.cup-card[data-id='${cupAttributes.id}`)
         cupsContainer.replaceChild(cup.renderCup(), oldCupCard)
         document.querySelector('#new-cup-button').style.display = 'block'
