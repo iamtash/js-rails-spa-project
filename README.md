@@ -19,7 +19,10 @@ bundle install
 rails db:migrate
 rails db:seed
 rails s
+```
 
+In a second terminal tab:
+```bash
 cd coffee-cups-frontend
 open index.html
 ```
