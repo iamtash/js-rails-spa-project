@@ -82,7 +82,8 @@ class Cup {
         button.dataset.id = this.id
 
         button.addEventListener('click', (e) => {
-            renderEditCupForm(e)
+            document.querySelector('button#new-cup-button').style.display = 'none'	
+            cupsContainer.style.display = 'none'	
             let editCupForm = document.querySelector(`div.edit-cup-div[data-id='${e.target.dataset.id}']`)
             editCupForm.disabled = 'false'
             editCupForm.style.display = 'block'
