@@ -123,10 +123,7 @@ class EditCupForm  {
         const cupURL = `${CUPS_URL}/${cupId}`
         fetch(cupURL, configObj)
             .then(resp => resp.json())
-            .then(updatedCup => {
-                console.log(updatedCup)
-                this.updateCupInDOM(updatedCup)}
-            ) 
+            .then(updatedCup => this.updateCupInDOM(updatedCup)) 
             .catch(error => {
                 console.log(error.message)
                 editCupForm.style.display = 'block'
