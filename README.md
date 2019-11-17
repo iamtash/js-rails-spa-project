@@ -6,8 +6,8 @@ Introduction
 ------------
 Coffee Cups is a Single Page Application (SPA) that allows users to, upon creation of an account:
 * Post cups of coffee they consume
-* Delete cups if desired
-* View what other users are sippin' on
+* Edit & delete cups if desired
+* View what other users are sipping
 
 
 Usage
