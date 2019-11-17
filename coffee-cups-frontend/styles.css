@@ -102,7 +102,6 @@ button:hover, input.delete-cup-button:hover, button.edit-cup-button:hover {
 }
 
 div.cup-content {
-    clear: both;
     position: relative;
     height: auto;
     margin: 0;
