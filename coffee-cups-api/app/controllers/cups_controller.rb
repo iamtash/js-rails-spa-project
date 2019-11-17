@@ -23,6 +23,12 @@ class CupsController < ApplicationController
         )
     end
 
+    def update
+        cup = Cup.find_by(id: params[:id])
+        cup.update(cup_params)
+        render json: CupSerializer.new(cup).to_serialized_json
+    end
+
     def destroy
         cup = Cup.find_by(id: params[:id])
         cup.destroy

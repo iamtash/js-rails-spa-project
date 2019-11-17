@@ -71,15 +71,6 @@ function renderNewCupForm() {
     makeHeaderClickable()
 }
 
-function renderEditCupForm(e) {
-    document.querySelector('button#new-cup-button').style.display = 'none'
-    cupsContainer.style.display = 'none'
-    let newCupFormObj = new EditCupForm('cup', e)
-    outerContainer.appendChild(newCupFormObj.formNode)
-    outerContainer.appendChild(newCupFormObj.exitOption())
-    makeHeaderClickable()
-}
-
 function removeNewCupForm() {
     let currentNewCupForm = document.querySelector('form#new-cup')
     let currentExitOption = document.querySelector('div.exit-option')

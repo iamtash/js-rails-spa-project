@@ -40,12 +40,13 @@ div.cup-card {
     padding: 1em;
     width: 100%;
     height: auto;
+    position: relative;
 }
 
 div.cup-card:hover {
-    border: 1px solid #696969;
+    border: 1px solid rosybrown;
     padding: 1em;
-    background: #696969;
+    background: rosybrown;
     color: solid white;
     transition: all 0.4s ease 0s;
 }
@@ -93,29 +94,40 @@ button.submit-button {
     margin-bottom: 1em;
 }
 
-button:hover, input.delete-cup-button:hover {
+button:hover, input.delete-cup-button:hover, button.edit-cup-button:hover {
     color: #ffffff ;
-    background: #f6b93b;
-    border-color: #f6b93b ;
+    background: #696969;
+    border-color: #696969;
     transition: all 0.4s ease 0s;
 }
 
-input.delete-cup-button {
-    float: right;
+div.cup-content {
+    clear: both;
+    position: relative;
+    height: auto;
+    margin: 0;
+}
+
+input.delete-cup-button, button.edit-cup-button {
     color: #696969;
     background: #ffffff;
     border: 2px solid #696969;
     transition: all 0.4s ease 0s;
     text-transform: uppercase;
+    position: inline;
+    margin-bottom: 0;
+    float: right;
 }
 
 button.edit-cup-button {
-    float: right;
-    color: #696969;
-    background: #ffffff;
-    border: 2px solid #696969;
-    transition: all 0.4s ease 0s;
-    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+
+div.buttons {
+    position: absolute;
+    right: 0;
+    bottom: 0px;
+    width: auto;
 }
 
 input.text-input {

@@ -27,12 +27,40 @@ class Cup {
         cupDiv.className = 'cup-card'
         cupDiv.dataset.id = this.id
         cupDiv.dataset.userId = this.user.id
+        let cupContent = document.createElement('div')
+        cupContent.className = 'cup-content'
         const cupText = document.createElement('span')
         cupText.className = 'text'
         cupText.innerHTML = this.getCupText()
-        cupDiv.appendChild(cupText).appendChild(this.createCupDeleteButton())
-        cupDiv.appendChild(cupText).appendChild(this.createCupEditButton())
+        cupDiv.appendChild(cupContent).appendChild(cupText)
+        
+        if (this.user.id === currentUser.id) {
+            let buttons = document.createElement('div')
+            buttons.className = 'buttons'
+            buttons.appendChild(this.createCupEditButton())
+            buttons.appendChild(this.createCupDeleteButton())
+            cupContent.appendChild(buttons)
+            cupDiv.appendChild(this.createCupEditForm())
+        }
+
         return cupDiv
+    }
+
+    createCupEditForm() {
+        const cupEditDiv = document.createElement('div')
+        cupEditDiv.className = 'edit-cup-div'
+        cupEditDiv.dataset.id = this.id
+        cupEditDiv.disabled = 'true'
+        cupEditDiv.style.display = 'none'
+
+        let editCupFormObj = new EditCupForm('cup', this)
+        editCupFormObj.formNode.className = 'edit-cup-form'
+        editCupFormObj.formNode.dataset.id = this.id
+
+        cupEditDiv.appendChild(editCupFormObj.formNode)
+        cupEditDiv.appendChild(EditCupForm.exitOption())
+
+        return cupEditDiv
     }
 
     getCupText() {
@@ -53,13 +81,14 @@ class Cup {
         button.className = 'edit-cup-button'
         button.dataset.id = this.id
 
-        if (currentUser.id === this.user.id) button.style.display = 'inline'
-        else {
-            button.style.display = 'none'
-            button.disabled = 'true'
-        }
+        button.addEventListener('click', (e) => {
+            renderEditCupForm(e)
+            let editCupForm = document.querySelector(`div.edit-cup-div[data-id='${e.target.dataset.id}']`)
+            editCupForm.disabled = 'false'
+            editCupForm.style.display = 'block'
+            outerContainer.appendChild(editCupForm)
+        })
 
-        button.addEventListener('click', (e) => renderEditCupForm(e))
         return button
     }
 
@@ -67,15 +96,12 @@ class Cup {
         let form = this.createDeleteForm()
         let submit = this.createDeleteFormSubmit()
         form.appendChild(submit)
-        if (currentUser.id === this.user.id) form.style.display = 'inline'
-        else {
-            form.style.display = 'none'
-            submit.disabled = 'true'
-        }
+
         form.addEventListener('submit', (e) => {
             e.preventDefault()
             this.deleteConfirmPopup(e)
         })
+
         return form
     }
 

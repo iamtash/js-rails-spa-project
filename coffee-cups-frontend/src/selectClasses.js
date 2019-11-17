@@ -52,15 +52,16 @@ class SelectHelper {
 }
 
 class ModelSelect {
-    constructor(selectHelper) {
+    constructor(selectHelper, cup) {
         this.selectHelper = selectHelper
+        this.cup = cup
     }
     
-    static generateObjsDropdown(objType, roasterId) { 
-        let selectObj = new ModelSelect(new SelectHelper(objType))
+    static generateObjsDropdown(objType, roasterId, cup) { 
+        let selectObj = new ModelSelect(new SelectHelper(objType), cup)
         selectObj.fetchSelectOptions(roasterId) 
-        
-        if (objType === 'roaster') {
+       
+        if (objType === 'roaster' && !cup) {
             selectObj.selectHelper.selectNode.addEventListener('change', (e) => { 
                 this.generateOrUpdateCoffeeSelect(e)
             })
@@ -84,7 +85,19 @@ class ModelSelect {
         fetch(url)
         .then(resp => resp.json())
         .then(json => renderObjOptions(json)) 
+        .then(() => this.preselectOption())
         .catch(error => console.log(error.message))
+    }
+
+    preselectOption() {
+        if (this.cup) {
+            if (['brew', 'coffee'].includes(this.selectHelper.type)) {
+                document.querySelector(`select#${this.selectHelper.type}-dropdown`).value = this.cup[this.selectHelper.type].id
+            }
+            else if (this.selectHelper.type === 'roaster') {
+                document.querySelector(`select#${this.selectHelper.type}-dropdown`).value = this.cup.coffee[this.selectHelper.type].id
+            }
+        }
     }
 
 

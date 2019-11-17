@@ -7,9 +7,9 @@ class CupSerializer
         @cup.to_json(include: {
             user: {only: [:id, :name, :email]},
             coffee: {include: {
-                roaster: {only: [:name]}
+                roaster: {only: [:id, :name]}
             }, only: [:id, :name]},
-            brew: {only: [:method]},
+            brew: {only: [:id, :method]},
             rating: {only: [:rating]}
         }, only: [:id, :created_at])
     end
