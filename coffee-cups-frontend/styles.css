@@ -116,6 +116,7 @@ input.delete-cup-button, button.edit-cup-button {
     position: inline;
     margin-bottom: 0;
     float: right;
+    width: 60px;
 }
 
 button.edit-cup-button {
