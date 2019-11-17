@@ -19,14 +19,18 @@ class Form {
         this.fieldset.appendChild(this.inputFields)
         this.fieldset.appendChild(this.buildSubmit(submitNewObjFunc))
         this.formNode.appendChild(this.fieldset)
+        this.formNode.appendChild(this.exitOption())
     }
 
     buildFormNode() {
+        const div = document.createElement('div')
+        div.id = `new-${this.type}-div`
         let form = document.createElement('form')
         form.id = `new-${this.type}`
         form.action = '#'
         form.method = 'post'
-        return form
+        div.appendChild(form)
+        return div
     }
 
     buildFieldset() {
@@ -71,8 +75,7 @@ class Form {
 
     static submitNewObj(e) {
         e.preventDefault()
-        e.target.form.remove() 
-        document.querySelector('div.exit-option').remove()
+        e.target.parentNode.parentNode.remove() 
     }
 
     exitOption() { 

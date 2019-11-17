@@ -21,7 +21,7 @@ class UserForm extends Form {
 
     static userConfigObjBody(e, fields) {
         let data = { user: {} }
-        fields.forEach(field => data.user[field] = e.target.form.elements[field].value)
+        fields.forEach(field => data.user[field] = e.target.parentNode.elements[field].value)
         return { body: JSON.stringify(data) }
     }
 

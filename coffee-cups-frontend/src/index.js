@@ -27,7 +27,6 @@ function renderUserLogin() {
 function renderUserForm(formObj) {
     outerContainer.innerHTML = ''
     outerContainer.appendChild(formObj.formNode)
-    outerContainer.appendChild(formObj.exitOption())
 }
 
 function getCups() {
@@ -48,7 +47,7 @@ function getDOMReadyForCups() {
 }
 
 function newCupButton() {
-    let button = document.createElement('button')
+    const button = document.createElement('button')
     button.id = 'new-cup-button'
     button.textContent = 'Sip a cup'
     button.addEventListener('click', () => renderNewCupForm())
@@ -65,17 +64,14 @@ function renderNewCupForm() {
     document.querySelector('button#new-cup-button').style.display = 'none'
     cupsContainer.style.display = 'none'
     removeNewCupForm() // prevent duplicate forms
-    let newCupFormObj = new NewCupForm('cup')
+    const newCupFormObj = new NewCupForm('cup')
     outerContainer.appendChild(newCupFormObj.formNode)
-    outerContainer.appendChild(newCupFormObj.exitOption())
     makeHeaderClickable()
 }
 
 function removeNewCupForm() {
-    let currentNewCupForm = document.querySelector('form#new-cup')
-    let currentExitOption = document.querySelector('div.exit-option')
+    const currentNewCupForm = document.querySelector('div#new-cup-div')
     if (currentNewCupForm) currentNewCupForm.remove()
-    if (currentExitOption) currentExitOption.remove()
 }
 
 function makeHeaderClickable() {

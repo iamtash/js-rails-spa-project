@@ -11,7 +11,6 @@ class NewCupForm extends Form {
     static submitNewObj(e) {
         super.submitNewObj(e)
         const configObj = Object.assign({}, newObjConfigObj, NewCupForm.newCupConfigObjBody(e))
-
         NewCupForm.fetchNewCup(configObj)
     }
 
@@ -20,10 +19,10 @@ class NewCupForm extends Form {
             let data = {
                 cup: {
                     user_id: currentUser.id,
-                    brew_id: e.target.form.elements.brew.value,
-                    coffee_id: e.target.form.elements.coffee.value,
+                    brew_id: e.target.parentNode.elements.brew.value,
+                    coffee_id: e.target.parentNode.elements.coffee.value,
                     rating_attributes: {
-                        rating: e.target.form.elements.rating.value
+                        rating: e.target.parentNode.elements.rating.value
                     }
                 }
             }
