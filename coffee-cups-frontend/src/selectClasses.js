@@ -60,8 +60,8 @@ class ModelSelect {
     static generateObjsDropdown(objType, roasterId, cup) { 
         let selectObj = new ModelSelect(new SelectHelper(objType), cup)
         selectObj.fetchSelectOptions(roasterId) 
-       
-        if (objType === 'roaster' && !cup) {
+    
+        if (objType === 'roaster' && !selectObj.cup) {
             selectObj.selectHelper.selectNode.addEventListener('change', (e) => { 
                 this.generateOrUpdateCoffeeSelect(e)
             })
@@ -92,10 +92,10 @@ class ModelSelect {
     preselectOption() {
         if (this.cup) {
             if (['brew', 'coffee'].includes(this.selectHelper.type)) {
-                document.querySelector(`select#${this.selectHelper.type}-dropdown`).value = this.cup[this.selectHelper.type].id
+                document.querySelector(`div.edit-cup-div[data-id='${this.cup.id}'] select#${this.selectHelper.type}-dropdown`).value = this.cup[this.selectHelper.type].id
             }
             else if (this.selectHelper.type === 'roaster') {
-                document.querySelector(`select#${this.selectHelper.type}-dropdown`).value = this.cup.coffee[this.selectHelper.type].id
+                document.querySelector(`div.edit-cup-div[data-id='${this.cup.id}'] select#${this.selectHelper.type}-dropdown`).value = this.cup.coffee[this.selectHelper.type].id
             }
         }
     }
@@ -106,10 +106,10 @@ class ModelSelect {
         
         let newCoffeeSelect = this.generateObjsDropdown('coffee', roasterId)
         newCoffeeSelect.addEventListener('change', (e) => { 
-            if (!document.querySelector('div .rating-select')) RatingSelect.generateRatingSelect(e)
+            if (!document.querySelector('form#new-cup div.rating-select')) RatingSelect.generateRatingSelect(e)
         }, {once: true})
     
-        let oldCoffeeSelect = document.querySelector('div .coffee-select')
+        let oldCoffeeSelect = document.querySelector('form#new-cup div.coffee-select')
         if (oldCoffeeSelect) oldCoffeeSelect.parentNode.replaceChild(newCoffeeSelect, oldCoffeeSelect)
         else e.target.parentNode.parentNode.appendChild(newCoffeeSelect)
     }
