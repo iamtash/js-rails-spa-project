@@ -24,12 +24,12 @@ class EditCupForm  {
         ratings.forEach(rating => ratingDropdown.appendChild(ratingSelectObj.selectHelper.renderOption(rating)))
         ratingDropdown.value = cup.rating.rating
         this.inputFields.appendChild(ratingSelectObj.selectHelper.createLabeledDropdown())
-        this.assembleFormElements(this.constructor.submitNewObj)
+        this.assembleFormElements()
     }
 
-    assembleFormElements(submitNewObjFunc) {
+    assembleFormElements() {
         this.fieldset.appendChild(this.inputFields)
-        this.fieldset.appendChild(this.buildSubmit(submitNewObjFunc))
+        this.fieldset.appendChild(this.buildSubmit())
         this.formNode.appendChild(this.fieldset)
     }
 
