@@ -59,12 +59,13 @@ class ModelSelect {
     
     static generateObjsDropdown(objType, roasterId, cup) { 
         let selectObj = new ModelSelect(new SelectHelper(objType), cup)
+
         if (cup && objType === 'coffee') roasterId = cup.coffee.roaster.id
         selectObj.fetchSelectOptions(roasterId) 
     
-        if (objType === 'roaster' && !selectObj.cup) {
+        if (objType === 'roaster') {
             selectObj.selectHelper.selectNode.addEventListener('change', (e) => { 
-                this.generateOrUpdateCoffeeSelect(e)
+                this.generateOrUpdateCoffeeSelect(e, cup)
             })
         }
     
@@ -102,15 +103,19 @@ class ModelSelect {
     }
 
 
-    static generateOrUpdateCoffeeSelect(e) { 
+    static generateOrUpdateCoffeeSelect(e, cup) { 
         let roasterId = e.target.value
+        let oldCoffeeSelect
+        let newCoffeeSelect
         
-        let newCoffeeSelect = this.generateObjsDropdown('coffee', roasterId)
-        newCoffeeSelect.addEventListener('change', (e) => { 
-            if (!document.querySelector('div#new-cup-div div.rating-select')) RatingSelect.renderRatingSelect(e)
+        newCoffeeSelect = this.generateObjsDropdown('coffee', roasterId)
+        if (!cup) newCoffeeSelect.addEventListener('change', (e) => { 
+            if (!e.target.parentNode.parentNode.querySelector('div.rating-select')) RatingSelect.renderRatingSelect(e)
         }, {once: true})
-    
-        let oldCoffeeSelect = document.querySelector('div#new-cup-div div.coffee-select')
+      
+        if (cup) oldCoffeeSelect = e.target.form.querySelector('div.coffee-select')
+        else  oldCoffeeSelect = e.target.parentNode.parentNode.querySelector('div.coffee-select')
+
         if (oldCoffeeSelect) oldCoffeeSelect.parentNode.replaceChild(newCoffeeSelect, oldCoffeeSelect)
         else e.target.parentNode.parentNode.appendChild(newCoffeeSelect)
     }
