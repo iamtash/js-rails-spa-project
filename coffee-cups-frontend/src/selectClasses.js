@@ -121,15 +121,15 @@ class RatingSelect {
         this.selectHelper = selectHelper
     }
 
-    static generateRatingSelect() {
+    static generateRatingSelect(cup) {
         const ratingSelectObj = new RatingSelect(new SelectHelper('rating'))
         const ratings = [1, 2, 3, 4, 5]
         ratings.forEach(rating => ratingSelectObj.selectHelper.selectNode.appendChild(ratingSelectObj.selectHelper.renderOption(rating)))
-        return ratingSelectObj
+        if (cup) ratingSelectObj.selectHelper.selectNode.value = cup.rating.rating
+        return ratingSelectObj.selectHelper.createLabeledDropdown()
     }
 
     static renderRatingSelect(e) { 
-        const ratingSelectObj = this.generateRatingSelect()
-        e.target.parentNode.parentNode.appendChild(ratingSelectObj.selectHelper.createLabeledDropdown())
+        e.target.parentNode.parentNode.appendChild(this.generateRatingSelect())
     }
 }

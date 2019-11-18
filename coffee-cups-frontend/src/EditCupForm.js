@@ -36,9 +36,7 @@ class EditCupForm  {
         const inputFields = document.createElement('div')
         inputFields.className = 'input-fields'
         objTypes.forEach(objType => inputFields.appendChild(ModelSelect.generateObjsDropdown(objType, null, this.cup)))
-        const ratingSelectObj = RatingSelect.generateRatingSelect()
-        ratingSelectObj.selectHelper.selectNode.value = this.cup.rating.rating
-        inputFields.appendChild(ratingSelectObj.selectHelper.createLabeledDropdown())
+        inputFields.appendChild(RatingSelect.generateRatingSelect(this.cup))
         return inputFields
     }
 
