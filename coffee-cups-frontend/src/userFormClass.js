@@ -2,7 +2,7 @@ class UserForm extends Form {
     constructor (objType, fields) {
         super(objType)
         fields.forEach(field => this.inputFields.appendChild(this.constructor.buildUserInput(field)))
-        this.assembleFormElements(this.constructor.submitNewObj)
+        this.assembleFormElements()
     }
 
     static buildUserInput(field) {

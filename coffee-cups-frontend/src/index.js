@@ -82,7 +82,6 @@ function makeHeaderClickable() {
 }
 
 function revealHomeView() {
-    removeNewCupForm()
     document.querySelector('button#new-cup-button').style.display = 'block'
     cupsContainer.style.display = 'block'
 }

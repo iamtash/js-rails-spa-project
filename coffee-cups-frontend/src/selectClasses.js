@@ -59,6 +59,7 @@ class ModelSelect {
     
     static generateObjsDropdown(objType, roasterId, cup) { 
         let selectObj = new ModelSelect(new SelectHelper(objType), cup)
+        if (cup && objType === 'coffee') roasterId = cup.coffee.roaster.id
         selectObj.fetchSelectOptions(roasterId) 
     
         if (objType === 'roaster' && !selectObj.cup) {
@@ -106,10 +107,10 @@ class ModelSelect {
         
         let newCoffeeSelect = this.generateObjsDropdown('coffee', roasterId)
         newCoffeeSelect.addEventListener('change', (e) => { 
-            if (!document.querySelector('form#new-cup div.rating-select')) RatingSelect.generateRatingSelect(e)
+            if (!document.querySelector('div#new-cup-div div.rating-select')) RatingSelect.renderRatingSelect(e)
         }, {once: true})
     
-        let oldCoffeeSelect = document.querySelector('form#new-cup div.coffee-select')
+        let oldCoffeeSelect = document.querySelector('div#new-cup-div div.coffee-select')
         if (oldCoffeeSelect) oldCoffeeSelect.parentNode.replaceChild(newCoffeeSelect, oldCoffeeSelect)
         else e.target.parentNode.parentNode.appendChild(newCoffeeSelect)
     }
@@ -120,10 +121,15 @@ class RatingSelect {
         this.selectHelper = selectHelper
     }
 
-    static generateRatingSelect(e) { 
-        let ratingSelectObj = new RatingSelect(new SelectHelper('rating'))
+    static generateRatingSelect() {
+        const ratingSelectObj = new RatingSelect(new SelectHelper('rating'))
         const ratings = [1, 2, 3, 4, 5]
         ratings.forEach(rating => ratingSelectObj.selectHelper.selectNode.appendChild(ratingSelectObj.selectHelper.renderOption(rating)))
+        return ratingSelectObj
+    }
+
+    static renderRatingSelect(e) { 
+        const ratingSelectObj = this.generateRatingSelect()
         e.target.parentNode.parentNode.appendChild(ratingSelectObj.selectHelper.createLabeledDropdown())
     }
 }

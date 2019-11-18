@@ -1,29 +1,10 @@
-const editObjConfigObj = {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    }
-}
-
 class EditCupForm  {
     constructor (objType, cup) {
         this.type = objType
+        this.cup = cup
         this.formNode = this.buildFormNode()
         this.fieldset = this.buildFieldset()
-        this.inputFields = document.createElement('div')
-        this.inputFields.id = 'input-fields'
-
-        const objTypes = ['brew', 'roaster']
-        objTypes.forEach(objType => this.inputFields.appendChild(ModelSelect.generateObjsDropdown(objType, null, cup)))
-        this.inputFields.appendChild(ModelSelect.generateObjsDropdown('coffee', cup.coffee.roaster.id, cup))
-
-        const ratingSelectObj = new RatingSelect(new SelectHelper('rating'))
-        const ratings = [1, 2, 3, 4, 5]
-        const ratingDropdown = ratingSelectObj.selectHelper.selectNode
-        ratings.forEach(rating => ratingDropdown.appendChild(ratingSelectObj.selectHelper.renderOption(rating)))
-        ratingDropdown.value = cup.rating.rating
-        this.inputFields.appendChild(ratingSelectObj.selectHelper.createLabeledDropdown())
+        this.inputFields = this.buildInputFields()
         this.assembleFormElements()
     }
 
@@ -50,6 +31,17 @@ class EditCupForm  {
         return fieldset
     }
 
+    buildInputFields() {
+        const objTypes = ['brew', 'roaster', 'coffee']
+        const inputFields = document.createElement('div')
+        inputFields.className = 'input-fields'
+        objTypes.forEach(objType => inputFields.appendChild(ModelSelect.generateObjsDropdown(objType, null, this.cup)))
+        const ratingSelectObj = RatingSelect.generateRatingSelect()
+        ratingSelectObj.selectHelper.selectNode.value = this.cup.rating.rating
+        inputFields.appendChild(ratingSelectObj.selectHelper.createLabeledDropdown())
+        return inputFields
+    }
+
     buildSubmit() {
         const submit = document.createElement('button')
         submit.type = 'submit'
@@ -71,11 +63,7 @@ class EditCupForm  {
         button.addEventListener('click', (e) => {
             const editCupForm = e.target.parentNode.parentNode
             const cupId = editCupForm.dataset.id
-            editCupForm.disabled = 'true'
-            editCupForm.style.display = 'none'
-            document.querySelector(`div.cup-card[data-id='${cupId}`).appendChild(editCupForm)
-            document.querySelector('button#new-cup-button').style.display = 'block'
-            document.querySelector('div.cups-wrapper').style.display = 'block'
+            this.removeForm(editCupForm, cupId)
         })
 
         exitOption.appendChild(exitText)
@@ -83,16 +71,20 @@ class EditCupForm  {
         return exitOption
     }
 
-    static submitEditedCup(e) {
-        e.preventDefault()
-        const editCupForm = e.target.parentNode
-        const cupId = e.target.dataset.id
+    static removeForm(editCupForm, cupId) {
         editCupForm.disabled = 'true'
         editCupForm.style.display = 'none'
         document.querySelector(`div.cup-card[data-id='${cupId}`).appendChild(editCupForm)
         document.querySelector('button#new-cup-button').style.display = 'block'
         cupsContainer.style.display = 'block'
-        const configObj = Object.assign({}, editObjConfigObj, EditCupForm.editCupConfigObjBody(e, editCupForm))
+    }
+
+    static submitEditedCup(e) {
+        e.preventDefault()
+        const editCupForm = e.target.parentNode
+        const cupId = e.target.dataset.id
+        this.removeForm(editCupForm, cupId)
+        const configObj = Object.assign({}, Form.submitObjConfigObj('PATCH'), EditCupForm.editCupConfigObjBody(e, editCupForm))
         EditCupForm.fetchEditedCup(configObj, cupId, editCupForm)
     }
 
@@ -111,12 +103,16 @@ class EditCupForm  {
             return { body: JSON.stringify(data) }
         } catch {
             console.log('Issue updating cup')
-            editCupForm.style.display = 'block'
-            editCupForm.disabled = 'false'
-            document.querySelector('button#new-cup-button').style.display = 'none'
-            cupsContainer.style.display = 'none'
-            outerContainer.appendChild(editCupForm)
+            this.renderForm(editCupForm)
         }
+    }
+
+    static renderForm(editCupForm) {
+        editCupForm.style.display = 'block'
+        editCupForm.disabled = 'false'
+        document.querySelector('button#new-cup-button').style.display = 'none'
+        cupsContainer.style.display = 'none'
+        outerContainer.appendChild(editCupForm)
     }
 
     static fetchEditedCup(configObj, cupId, editCupForm) {
@@ -126,11 +122,7 @@ class EditCupForm  {
             .then(updatedCup => this.updateCupInDOM(updatedCup)) 
             .catch(error => {
                 console.log(error.message)
-                editCupForm.style.display = 'block'
-                editCupForm.disabled = 'false'
-                document.querySelector('button#new-cup-button').style.display = 'none'
-                cupsContainer.style.display = 'none'
-                outerContainer.appendChild(editCupForm)
+                this.renderForm(editCupForm)
             })
     }
 
@@ -138,7 +130,6 @@ class EditCupForm  {
         const cup = new Cup(cupAttributes)
         const oldCupCard = document.querySelector(`div.cup-card[data-id='${cupAttributes.id}`)
         cupsContainer.replaceChild(cup.renderCup(), oldCupCard)
-        document.querySelector('#new-cup-button').style.display = 'block'
-        cupsContainer.style.display = 'block'
+        revealHomeView()
     }
 }

@@ -1,11 +1,3 @@
-const newObjConfigObj = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    }
-}
-
 class Form {
     constructor (objType) {
         this.type = objType
@@ -15,9 +7,9 @@ class Form {
         this.inputFields.id = 'input-fields'
     }
 
-    assembleFormElements(submitNewObjFunc) {
+    assembleFormElements() {
         this.fieldset.appendChild(this.inputFields)
-        this.fieldset.appendChild(this.buildSubmit(submitNewObjFunc))
+        this.fieldset.appendChild(this.buildSubmit())
         this.formNode.appendChild(this.fieldset)
         this.formNode.appendChild(this.exitOption())
     }
@@ -53,12 +45,12 @@ class Form {
         }
     }
 
-    buildSubmit(submitNewObjFunc) {
-        let submit = document.createElement('button')
+    buildSubmit() {
+        let submit = document.createElement('input')
         submit.type = 'submit'
         submit.className = 'submit-button'
-        submit.textContent = this.submitButtonText
-        submit.addEventListener('click', (e) => submitNewObjFunc(e))
+        submit.value = this.submitButtonText
+        submit.addEventListener('click', (e) => this.constructor.submitNewObj(e))
         return submit
     }
 
@@ -115,8 +107,18 @@ class Form {
             case 'cup':
                 exitOptionContent.exitText = 'Nevermind?'
                 exitOptionContent.buttonText = 'Go back'
-                exitOptionContent.renderFunc = revealHomeView
+                exitOptionContent.renderFunc = function() {removeNewCupForm(); revealHomeView()}
                 return exitOptionContent
+        }
+    }
+
+    static submitObjConfigObj(method) {
+        return {
+            method: method,
+            headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+            }
         }
     }
 
