@@ -37,12 +37,19 @@ Brew.create(method: 'AeroPress')
 Brew.create(method: 'Turkish coffee')
 Brew.create(method: 'French press')
 
-cup1 = natasha.cups.create!(brew_id: 1, coffee_id: 1, rating: Rating.create(rating: 1))
-cup2 = jessica.cups.create!(brew_id: 2, coffee_id: 2, rating: Rating.create(rating: 2))
-cup3 = leeya.cups.create!(brew_id: 3, coffee_id: 3, rating: Rating.create(rating: 3))
-cup4 = tiff.cups.create!(brew_id: 4, coffee_id: 4, rating: Rating.create(rating: 4))
-cup5 = vladimir.cups.create!(brew_id: 5, coffee_id: 5, rating: Rating.create(rating: 5))
-cup6 = daniel.cups.create!(brew_id: 6, coffee_id: 6, rating: Rating.create(rating: 4))
+cup1 = natasha.cups.build(brew_id: 1, coffee_id: 1, rating: Rating.create(rating: 1))
+cup2 = jessica.cups.build(brew_id: 2, coffee_id: 2, rating: Rating.create(rating: 2))
+cup3 = leeya.cups.build(brew_id: 3, coffee_id: 3, rating: Rating.create(rating: 3))
+cup4 = tiff.cups.build(brew_id: 4, coffee_id: 4, rating: Rating.create(rating: 4))
+cup5 = vladimir.cups.build(brew_id: 5, coffee_id: 5, rating: Rating.create(rating: 5))
+cup6 = daniel.cups.build(brew_id: 6, coffee_id: 6, rating: Rating.create(rating: 4))
+
+cup1.save
+cup2.save
+cup3.save
+cup4.save
+cup5.save
+cup6.save
 
 # cup1.create_rating!(rating: 3)
 # cup2.create_rating!(rating: 4)
