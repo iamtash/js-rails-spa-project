@@ -17,9 +17,7 @@ class Cup {
     }
 
     static buildCupObjects(cups) {
-        return cups.map((cupAttributes) => {
-            return new Cup(cupAttributes)
-        })
+        return cups.map(cupAttributes => new Cup(cupAttributes))
     }
 
     renderCup() {
