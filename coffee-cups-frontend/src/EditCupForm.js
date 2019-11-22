@@ -82,7 +82,12 @@ class EditCupForm  {
         const editCupForm = e.target.parentNode
         const cupId = e.target.dataset.id
         this.removeForm(editCupForm, cupId)
-        const configObj = Object.assign({}, Form.submitObjConfigObj('PATCH'), EditCupForm.editCupConfigObjBody(e, editCupForm))
+        
+        const configObj = { 
+            ...Form.submitObjConfigObj('PATCH'), 
+            ...EditCupForm.editCupConfigObjBody(e, editCupForm) 
+        }
+
         EditCupForm.fetchEditedCup(configObj, cupId, editCupForm)
     }
 
