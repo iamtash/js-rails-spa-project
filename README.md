@@ -51,3 +51,8 @@ Bug reports and pull requests are welcome, with adherence to the [Code of Conduc
 License
 -------
 The project uses the MIT [License](./LICENSE)
+
+Blog Post
+---------
+
+[Read about what I learned while building this project!](https://iamtash.github.io/javascript_and_rails_project_coffee_cups_3_0)
