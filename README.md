@@ -4,6 +4,8 @@ Coffee Cups
 
 Introduction
 ------------
+A CMS for coffee aficionados to track and/or rate different types of coffee they try as well as stay apprised of what’s good in a coffee-centric social forum.
+
 Coffee Cups is a Single Page Application (SPA) that allows users to, upon creation of an account:
 * Post cups of coffee they consume
 * Edit & delete cups if desired
